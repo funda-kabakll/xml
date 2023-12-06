@@ -4,10 +4,14 @@ from PIL import Image, ImageTk
 import webbrowser
 
 pencere = Tk()
-pencere.title("XML Project")
+pencere.title("XML Projesi")
 pencere.geometry("600x650")
 
 navigasyon = 0
+
+tree = ET.parse('veriSeti.xml')
+root = tree.getroot()
+num_entries = len(root)
 
 def ileriGit():
     global navigasyon
@@ -23,13 +27,9 @@ def geriGit():
         navigasyon = num_entries - 1
     goster(navigasyon)
 
-def open_link(event):
-    identifier_value = event.widget.cget("text")
+def linkAc(site):
+    identifier_value = site.widget.cget("text")
     webbrowser.open(identifier_value)
-
-tree = ET.parse('veriSeti.xml')
-root = tree.getroot()
-num_entries = len(root)
 
 def goster(navigasyon):
     resim = root[navigasyon][1].text
@@ -79,7 +79,7 @@ def goster(navigasyon):
 
     metin7 = Label(inner_frame, text=identifier, wraplength=500, justify="left", fg="blue", cursor="hand2")
     metin7.grid(row=6, column=0, padx=10, pady=10)
-    metin7.bind("<Button-1>", open_link)
+    metin7.bind("<Button-1>", linkAc)
 
 ileriButon = Button(pencere, text="İleri", command=ileriGit)
 geriButon = Button(pencere, text="Geri", command=geriGit)
